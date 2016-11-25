@@ -4,7 +4,6 @@
   "description": "let's go on a d3 quest",
   "main": "source/index.js",
   "scripts": {
-    "data": "node ./melville/data-collector.js",
     "server": "node ./melville/server.js",
     "build": "webpack",
     "dev": "webpack-dev-server"

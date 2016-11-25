@@ -1,7 +1,6 @@
-const path = require('path');
-const fs = require('fs');
 const Epub = require('epub');
 const cheerio = require('cheerio');
+const fs = require('fs');
 
 const readBook = filepath => {
   return new Promise((resolve, reject) => {
@@ -27,7 +26,7 @@ const findChapters = (start = 0, end) => book => {
   return Promise.all(book.flow.slice(start, end).map(getFlowChapter));
 };
 
-const parseChaptersData = data => {
+const parseBookData = data => {
   const chapters = data.map(d => d.chapter);
 
   return Promise.all(
@@ -36,6 +35,7 @@ const parseChaptersData = data => {
       .map((chapter, i) => {
         const raw = data[i].text;
         const html = cheerio.load(raw);
+
         return Promise.resolve({
           id: chapter.id,
           title: chapter.title,
@@ -46,13 +46,19 @@ const parseChaptersData = data => {
   );
 }
 
-const mobyDickPath = path.resolve(__dirname, 'data/herman-melville-moby-dick.epub');
+const writeBookData = output => bookData => {
+  return new Promise((resolve, reject) => {
+    fs.writeFile(output, JSON.stringify(bookData, null, 2), (err) => {
+      if (err) return reject(err);
+      resolve(bookData);
+    });
+  });
+}
 
-readBook(mobyDickPath)
-  .then(findChapters(5, -2))
-  .then(parseChaptersData)
-  .then(chapters => {
-    fs.writeFile(__dirname + '/data/dist/chapters.json', JSON.stringify(chapters, null, 2), (err) => {
-      if (err) throw new Error(err);
-    })
-  })
+module.exports = {
+  readBook,
+  getChapter,
+  findChapters,
+  parseBookData,
+  writeBookData
+};

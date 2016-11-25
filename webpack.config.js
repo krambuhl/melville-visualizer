@@ -37,7 +37,7 @@ module.exports = {
     new webpack.optimize.CommonsChunkPlugin("vendor", "/assets/vendor.js"),
     new HtmlWebpackPlugin({
       title: pkg.name,
-      template: './source/template.hbs'
+      template: './web-source/template.hbs'
     })
   ]
 };
