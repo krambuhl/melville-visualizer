@@ -13,10 +13,14 @@ const {
 const mobyDickPath = path.resolve(__dirname, 'data/herman-melville-moby-dick.epub');
 const mobyDickPathOutput = path.resolve(__dirname, '../dist/assets/moby-dick.json');
 
-readBook(mobyDickPath)
-  .then(findChapters(5, -2))
-  .then(parseBookData)
-  // .then(writeBookData(mobyDickPathOutput))
+const getBookData = (path, start, end) => {
+  return readBook(path)
+    .then(findChapters(start, end))
+    .then(parseBookData)
+}
+
+
+getBookData(mobyDickPath, 5, -2)
   .then(bookData => {
     console.log(bookData.map(b => b.title));
   })
