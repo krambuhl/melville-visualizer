@@ -1,14 +1,13 @@
 const Epub = require('epub');
 const cheerio = require('cheerio');
-const fs = require('fs');
 
 const readBook = filepath => {
   return new Promise((resolve, reject) => {
     const book = new Epub(filepath);
     book
-      .on('error', err => reject(err))
-      .on('end', () => resolve(book))
-      .parse();
+    .on('error', err => reject(err))
+    .on('end', () => resolve(book))
+    .parse();
   });
 };
 
@@ -16,7 +15,7 @@ const getChapter = book => chapter => {
   return new Promise((resolve, reject) => {
     book.getChapter(chapter.id, (err, text) => {
       if (err) return reject(err);
-      resolve({ chapter, text });
+      resolve({ book, chapter, text });
     });
   });
 };
@@ -27,38 +26,41 @@ const findChapters = (start = 0, end) => book => {
 };
 
 const parseBookData = data => {
+  const book = data[0].book;
   const chapters = data.map(d => d.chapter);
 
-  return Promise.all(
-    data
+  return Promise.resolve({
+    metadata: book.metadata,
+    chapters:
+      data
       .map(d => d.chapter)
       .map((chapter, i) => {
         const raw = data[i].text;
-        const html = cheerio.load(raw);
+        const $ = cheerio.load(raw);
 
-        return Promise.resolve({
-          id: chapter.id,
+        return {
           title: chapter.title,
-          html: html.text(),
-          raw: raw
-        });
+          fulltext: $('.text').text(),
+          chapter: chapter,
+          paragraphs: $('.text').find('p').map((i, el) => $(el).text()).get(),
+          html: raw
+        };
       })
-  );
-}
-
-const writeBookData = output => bookData => {
-  return new Promise((resolve, reject) => {
-    fs.writeFile(output, JSON.stringify(bookData, null, 2), (err) => {
-      if (err) return reject(err);
-      resolve(bookData);
-    });
   });
 }
+
+const getBookData = (start, end) => path => {
+  return Promise.resolve(path)
+    .then(readBook)
+    .then(findChapters(start, end))
+    .then(parseBookData)
+}
+
 
 module.exports = {
   readBook,
   getChapter,
   findChapters,
   parseBookData,
-  writeBookData
+  getBookData
 };

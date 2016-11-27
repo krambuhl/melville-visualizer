@@ -1,0 +1,39 @@
+@import "~reset-css/reset.css";
+
+html,
+body {
+	width: 100vw;
+	height: 100vh;
+}
+
+#canvas {
+	width: 100vw;
+	height: 100vh;
+	padding: 10vw;
+
+	transition: all 0.05s linear;
+	color: white;
+
+	font-family: sans-serif;
+}
+
+#canvas > * + * {
+	margin-top: 0.2em;
+}
+
+.book-progress__chapter-title {
+	font-weight: normal;
+	font-size: 2em;
+}
+
+.book-progress__letter {
+	font-weight: bold;
+	font-size: 16em;
+	text-transform: uppercase;
+}
+
+.book-progress__word {
+	font-weight: bold;
+	font-size: 6em;
+	text-transform: uppercase;
+}

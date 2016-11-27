@@ -1,5 +1,5 @@
 {
-  "name": "moby-dick-visualizer",
+  "name": "melvisualizer",
   "version": "1.0.0",
   "description": "let's go on a d3 quest",
   "main": "source/index.js",
@@ -17,13 +17,18 @@
     "clean-webpack-plugin": "^0.1.14",
     "css-loader": "^0.26.0",
     "d3": "^4.4.0",
+    "emoji-from-word": "^1.2.5",
     "epub": "^0.1.6",
     "extract-text-webpack-plugin": "^1.0.1",
+    "glob": "^7.1.1",
     "handlebars": "^4.0.6",
     "handlebars-loader": "^1.4.0",
     "html-webpack-plugin": "^2.24.1",
     "json-loader": "^0.5.4",
+    "node-emoji": "^1.4.1",
     "reset-css": "^2.2.0",
+    "socket.io": "^1.6.0",
+    "socket.io-client": "^1.6.0",
     "webpack": "^1.13.3",
     "webpack-dev-server": "^1.16.2"
   }
