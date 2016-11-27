@@ -1,11 +1,11 @@
 import styles from './styles.css';
 import * as d3 from 'd3';
 
-import socket from 'socket.io-client';
+import createSocketClient from 'socket.socket-client';
 import emojiFromWord from 'emoji-from-word';
 import emoji from 'node-emoji';
 
-const io = socket('http://localhost:3000');
+const socket = createSocketClient('http://localhost:3000');
 
 const progress = document.querySelector('.book-progress');
 const word = document.querySelector('.book-word__current');
@@ -13,7 +13,7 @@ const word = document.querySelector('.book-word__current');
 let lastChapter = false;
 let lastContainer;
 
-io.on('frame', frame => {
+socket.on('frame', frame => {
   if (lastChapter !== frame.chapterTitle) {
     lastChapter = frame.chapterTitle;
 
@@ -30,7 +30,7 @@ io.on('frame', frame => {
 
   if (frame.word === 'a' || frame.word === 'it' || frame.word === 'us') return;
 
-  if (wordEmoji.score >= 0.975) {
+  if (wordEmoji.score >= 0.95) {
     const span = document.createElement('span');
     span.setAttribute('title', frame.word);
     span.setAttribute('score', wordEmoji.score);
