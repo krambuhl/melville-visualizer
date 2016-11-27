@@ -43,22 +43,18 @@ export const buildParagraphs = paragraphs => (
     }))
 )
 
-export const buildBookTree = book => {
-  let { metadata, chapters } = book
-
-  chapters = chapters.map(chapter => Object.assign({}, chapter, {
-    paragraphs: buildParagraphs(chapter.paragraphs)
-  }));
-
-  chapters.forEach((chapter, i) => {
-    chapters[i].fulltext = chapter.paragraphs.map(paragraph => paragraph.fulltext).join(' ');
-    chapters[i].text = chapter.paragraphs.map(paragraph => paragraph.text).join(' ');
-  });
-
-  return Promise.resolve({
-    metadata,
-    chapters
-  });
-}
+export const buildBookTree = book => (
+  Promise.resolve({
+    metadata: book.metadata,
+    chapters: book.chapters
+      .map(chapter => Object.assign({}, chapter, {
+        paragraphs: buildParagraphs(chapter.paragraphs)
+      }))
+      .map((chapter, i) => Object.assign({}, chapter, {
+        fulltext: chapter.paragraphs.map(paragraph => paragraph.fulltext).join(' '),
+        text: chapter.paragraphs.map(paragraph => paragraph.text).join(' ')
+      }))
+  })
+)
 
 export default buildBookTree;

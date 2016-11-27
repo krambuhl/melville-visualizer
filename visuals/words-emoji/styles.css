@@ -11,25 +11,6 @@ html {
 	font-size: 1.5em;
 }
 
-.book-word {
-	position: fixed;
-	bottom: 0;
-	left: 0;
-	right: 0;
-
-	font-weight: bold;
-
-	background-color: rgba(255, 255, 255, 0.9);
-	border-top: #eee 1px solid;
-	min-height: 2.5em;
-}
-
-.book-word__current {
-	margin: 0 auto;
-	padding: 1em;
-	max-width: 40em;
-}
-
 .book-progress {
 	margin: 0 auto;
 	padding: 2em 1em 2em 1em;
@@ -51,4 +32,32 @@ html {
 
 .book-progress > * + div {
 	margin-top: 0.5em;
+}
+
+.emoji-tag {
+	display: inline-block;
+	padding: 0.5em 0.6em;
+	margin-bottom: 0.25em;
+	border-radius: 100px;
+
+	background-color: #eee;
+}
+
+.emoji-tag > * {
+	display: inline-block;
+	vertical-align: middle;
+}
+
+
+.emoji-tag > *:nth-child(1) {
+	line-height: 1em;
+	font-size: 0.8em;
+	transform: translateY(0.05em);
+}
+
+.emoji-tag > *:nth-child(2) {
+  font-size: 0.6em;
+  margin-left: 0.3em;
+  line-height: 1em;
+  text-transform: uppercase;
 }

@@ -7,7 +7,9 @@ export const createFrameServer = server => frames => {
     console.log('connect');
     let index = 0;
 
-    socket.emit('frames', frames)
+    const timer = setInterval(() => {
+      socket.emit('frame', frames[index++ % frames.length])
+    }, 30);
 
     connection.on('disconnect', () => {
       console.log('disconnect');
