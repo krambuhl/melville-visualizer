@@ -1,7 +1,7 @@
 import fs from 'fs';
 import each from 'async/eachOfSeries';
 
-export const writeFrameData = output => frames => {
+export const writeFrameData = (output, type) => frames => {
   return new Promise((resolve, reject) => {
     const outputStream = fs.createWriteStream(output);
 
@@ -9,11 +9,9 @@ export const writeFrameData = output => frames => {
       outputStream.write('[');
 
       each(frames, (frame, i, done) => {
-        console.log(`frame ${i}/${frames.length}` );
-
         if (i > 0) outputStream.write(', ')
-
         outputStream.write(JSON.stringify(frame, null, 2), 'utf8', done);
+        console.log(`${type} frame ${i}/${frames.length - 1}` );
       }, () => {
         outputStream.write(']');
         resolve(frames);

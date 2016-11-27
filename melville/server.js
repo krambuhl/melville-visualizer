@@ -22,8 +22,8 @@ Promise.resolve(mobyDickPath)
   .then(getBookData(5, -2))
   .then(buildBookTree)
   .then(createBookFrames)
-  .then(filterFrameKeys(['chapter', 'sentence', 'word'])) // 'chapter', 'paragraph', , , 'letter'
-  .then(uniqueFramesByKey('chapter'))
-  .then(writeFrameData(mobyDickPathOutput))
+  .then(filterFrameKeys(['chapterTitle', 'paragraph', 'sentence', 'word'])) // 'chapter', 'paragraph', , , 'letter'
+  .then(uniqueFramesByKey('sentence'))
+  .then(writeFrameData(mobyDickPathOutput, 'sentence'))
   // .then(createFrameServer(server))
   .catch(err => console.log(err));
